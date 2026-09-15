@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sprout & Spire: Chronicles of the Verdant Core</title>
+    <style>
+        :root {
+            --bg-primary: #0b130f;
+            --bg-secondary: #132219;
+            --bg-tertiary: #1b3024;
+            --accent-green: #2ecc71;
+            --accent-glow: rgba(46, 204, 113, 0.4);
+            --accent-gold: #f1c40f;
+            --accent-red: #e74c3c;
+            --accent-blue: #3498db;
+            --text-main: #ecf0f1;
+            --text-muted: #95a5a6;
+            --border-color: #27ae60;
+            --panel-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+            border-bottom: 2px solid var(--border-color);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            z-index: 100;
+        }
+
+        .logo-area h1 {
+            font-size: 1.25rem;
+            color: var(--accent-green);
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .logo-area p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            background: var(--bg-tertiary);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+
+        .btn:hover {
+            background: var(--accent-green);
+            color: var(--bg-primary);
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        .btn:active {
+            transform: scale(0.96);
+        }
+
+        /* Main Container layout */
+        .game-container {
+            display: grid;
+            grid-template-columns: 280px 1fr 320px;
+            gap: 15px;
+            padding: 15px;
+            flex: 1;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        @media (max-width: 1100px) {
+            .game-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .panel {
+            background: var(--bg-secondary);
+            border: 1px solid rgba(46, 204, 113, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: var(--panel-shadow);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-height: calc(100vh - 90px);
+            overflow-y: auto;
+        }
+
+        /* Scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 3px;
+        }
+
+        .panel h2 {
+            font-size: 1rem;
+            color: var(--accent-green);
+            border-bottom: 1px solid rgba(46, 204, 113, 0.2);
+            padding-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Stats & Resources Dashboard */
+        .resource-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .resource-card {
+            background: var(--bg-primary);
+            padding: 8px 10px;
+            border-radius: 6px;
+            border-left: 3px solid var(--accent-green);
+        }
+
+        .resource-card .label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .resource-card .value {
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: var(--accent-green);
+        }
+
+        /* Center Garden Grid */
+        .garden-main-area {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .weather-banner {
+            background: linear-gradient(90deg, var(--bg-tertiary), var(--bg-secondary));
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--accent-blue);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .weather-info span {
+            color: var(--accent-blue);
+            font-weight: bold;
+        }
+
+        .plots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 12px;
+        }
+
+        .plot-card {
+            background: var(--bg-primary);
+            border: 2px dashed rgba(46, 204, 113, 0.3);
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 160px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .plot-card:hover {
+            border-color: var(--accent-green);
+            transform: translateY(-2px);
+        }
+
+        .plot-card.active {
+            border-style: solid;
+            border-color: var(--accent-green);
+            background: linear-gradient(180deg, var(--bg-primary), var(--bg-secondary));
+        }
+
+        .plot-status {
+            font-size: 0.75rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .plot-icon {
+            font-size: 2.2rem;
+            margin: 10px 0;
+            transition: transform 0.3s;
+        }
+
+        .plot-card:hover .plot-icon {
+            transform: scale(1.1);
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            height: 6px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .progress-bar {
+            background: var(--accent-green);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s linear;
+        }
+
+        /* Tabs inside panels */
+        .tab-buttons {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 5px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 6px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .tab-btn.active {
+            background: var(--accent-green);
+            color: var(--bg-primary);
+            font-weight: bold;
+        }
+
+        .tab-content {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .tab-content.active {
+            display: flex;
+        }
+
+        /* Items / Inventory Lists */
+        .item-list-card {
+            background: var(--bg-primary);
+            padding: 10px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 3px solid var(--accent-gold);
+        }
+
+        .item-info h4 {
+            font-size: 0.85rem;
+            color: var(--text-main);
+        }
+
+        .item-info p {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* Modals / Overlays */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            background: var(--bg-secondary);
+            border: 2px solid var(--accent-green);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 450px;
+            padding: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            position: relative;
+            animation: modalPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes modalPop {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-box h3 {
+            color: var(--accent-green);
+            font-size: 1.2rem;
+            border-bottom: 1px solid rgba(46, 204, 113, 0.3);
+            padding-bottom: 8px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        .modal-close:hover {
+            color: var(--accent-red);
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .input-field {
+            flex: 1;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            border-radius: 6px;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .input-field:focus {
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 8px rgba(241, 196, 15, 0.4);
+        }
+
+        /* Popup Notification Banner */
+        #admin-popup {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: linear-gradient(135deg, #f1c40f, #e67e22);
+            color: #0b130f;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 10px 30px rgba(241, 196, 15, 0.6);
+            z-index: 2000;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+            border: 2px solid #fff;
+        }
+
+        #admin-popup.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .console-log {
+            background: var(--bg-primary);
+            border-radius: 6px;
+            padding: 8px;
+            font-family: monospace;
+            font-size: 0.75rem;
+            height: 120px;
+            overflow-y: auto;
+            color: var(--accent-green);
+            border: 1px solid rgba(46, 204, 113, 0.2);
+        }
+
+        .quest-item {
+            background: var(--bg-primary);
+            border-radius: 6px;
+            padding: 8px 10px;
+            font-size: 0.8rem;
+            border-left: 3px solid var(--accent-blue);
+        }
+
+        .shop-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-primary);
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        .flex-row {
+            display: flex;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation Header -->
+    <header>
+        <div class="logo-area">
+            <h1>🌱 SPROUT & SPIRE</h1>
+            <p>Chronicles of the Verdant Core v1.5.0</p>
+        </div>
+        <div class="header-controls">
+            <button class="btn" onclick="saveGameManual()">Save Game</button>
+            <button class="btn" onclick="openModal('settings-modal')">⚙️ Settings</button>
+        </div>
+    </header>
+
+    <!-- Main Game Wrapper -->
+    <div class="game-container">
+
+        <!-- Left Panel: Ecosystem & Player Stats -->
+        <div class="panel">
+            <h2>Ecosystem Stats</h2>
+            <div class="resource-grid">
+                <div class="resource-card">
+                    <div class="label">Essence</div>
+                    <div class="value" id="res-essence">0</div>
+                </div>
+                <div class="resource-card">
+                    <div class="label">Gold Coins</div>
+                    <div class="value" id="res-gold">50</div>
+                </div>
+                <div class="resource-card">
+                    <div class="label">Soil Fertility</div>
+                    <div class="value" id="stat-fertility">100%</div>
+                </div>
+                <div class="resource-card">
+                    <div class="label">Spire Core</div>
+                    <div class="value" id="stat-core">Level 1</div>
+                </div>
+            </div>
+
+            <h2>Skills & Upgrades</h2>
+            <div class="tab-buttons">
+                <div class="tab-btn active" onclick="switchTab(this, 'botany-tab')">Botany</div>
+                <div class="tab-btn" onclick="switchTab(this, 'alchemy-tab')">Alchemy</div>
+                <div class="tab-btn" onclick="switchTab(this, 'automation-tab')">Tech</div>
+            </div>
+
+            <div id="botany-tab" class="tab-content active">
+                <div class="shop-row">
+                    <div>
+                        <div style="font-size:0.8rem; font-weight:bold;">Rapid Roots</div>
+                        <div style="font-size:0.7rem; color:var(--text-muted);">+15% Growth Speed</div>
+                    </div>
+                    <button class="btn" onclick="buyUpgrade('rapidRoots')">Buy (25g)</button>
+                </div>
+                <div class="shop-row">
+                    <div>
+                        <div style="font-size:0.8rem; font-weight:bold;">Rich Compost</div>
+                        <div style="font-size:0.7rem; color:var(--text-muted);">+20% Harvest Yield</div>
+                    </div>
+                    <button class="btn" onclick="buyUpgrade('richCompost')">Buy (40g)</button>
+                </div>
+            </div>
+
+            <div id="alchemy-tab" class="tab-content">
+                <div class="shop-row">
+                    <div>
+                        <div style="font-size:0.8rem; font-weight:bold;">Essence Refiner</div>
+                        <div style="font-size:0.7rem; color:var(--text-muted);">Convert Crops to Essence</div>
+                    </div>
+                    <button class="btn" onclick="craftEssence()">Refine</button>
+                </div>
+            </div>
+
+            <div id="automation-tab" class="tab-content">
+                <div class="shop-row">
+                    <div>
+                        <div style="font-size:0.8rem; font-weight:bold;">Auto-Sprinkler</div>
+                        <div style="font-size:0.7rem; color:var(--text-muted);">Waters plots automatically</div>
+                    </div>
+                    <button class="btn" onclick="buyUpgrade('autoSprinkler')">Buy (150g)</button>
+                </div>
+            </div>
+
+            <h2>Active Quests</h2>
+            <div id="quest-container" style="display:flex; flex-direction:column; gap:8px;">
+                <div class="quest-item">
+                    <strong>First Harvest:</strong> Harvest 3 Sunflowers. (0/3)
+                </div>
+            </div>
+        </div>
+
+        <!-- Center Panel: The Garden Grid & Actions -->
+        <div class="garden-main-area">
+            <div class="weather-banner">
+                <div>Current Climate: <span id="weather-display">Sunny & Calm ☀️</span></div>
+                <div style="font-size:0.75rem; color:var(--text-muted);" id="weather-timer">Next shift in 60s</div>
+            </div>
+
+            <div class="panel" style="flex:1; max-height:none;">
+                <h2>Garden Plots <span style="font-size:0.75rem; color:var(--text-muted);">Tap plot to interact</span></h2>
+                <div class="plots-grid" id="plots-container">
+                    <!-- Dynamic plots generated via JS -->
+                </div>
+            </div>
+
+            <!-- Action Bar for Selected Seed / Tool -->
+            <div class="panel" style="padding:10px; flex-direction:row; justify-content:space-around; align-items:center;">
+                <button class="btn" onclick="setSelectedTool('water')" style="border-color:var(--accent-blue);">💧 Water Tool</button>
+                <button class="btn" onclick="setSelectedTool('fertilizer')" style="border-color:var(--accent-gold);">✨ Fertilizer</button>
+                <button class="btn" onclick="setSelectedTool('weed')" style="border-color:var(--accent-red);">🌿 Clear Weeds</button>
+            </div>
+        </div>
+
+        <!-- Right Panel: Inventory & Seed Vault -->
+        <div class="panel">
+            <h2>Seed Vault</h2>
+            <div id="seeds-inventory" style="display:flex; flex-direction:column; gap:8px;">
+                <!-- Seeds populated dynamically -->
+            </div>
+
+            <h2>Harvested Crops</h2>
+            <div id="crops-inventory" style="display:flex; flex-direction:column; gap:8px; max-height:180px; overflow-y:auto;">
+                <!-- Crops populated dynamically -->
+            </div>
+
+            <h2>System Log</h2>
+            <div class="console-log" id="console-log">
+                [00:00] Verdant Core online. Welcome to Sprout & Spire.<br>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Settings Modal with Codes Integration -->
+    <div class="modal-overlay" id="settings-modal">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeModal('settings-modal')">&times;</button>
+            <h3>Settings & Systems</h3>
+            <p style="font-size:0.85rem; color:var(--text-muted);">Manage audio, system configs, and developer/admin secret codes below.</p>
+            
+            <div style="display:flex; flex-direction:column; gap:10px; margin-top:10px;">
+                <label style="font-size:0.8rem; font-weight:bold; color:var(--accent-green);">Redeem Code / Admin Console</label>
+                <div class="input-group">
+                    <input type="text" id="promo-code-input" class="input-field" placeholder="Enter code here..." onkeydown="handleCodeKeydown(event)">
+                    <button class="btn" onclick="submitPromoCode()">Enter</button>
+                </div>
+            </div>
+
+            <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; display:flex; gap:10px;">
+                <button class="btn" style="flex:1; background:var(--accent-red); border-color:#c0392b;" onclick="hardReset()">Hard Reset Save</button>
+                <button class="btn" style="flex:1;" onclick="closeModal('settings-modal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Seed Planting Modal -->
+    <div class="modal-overlay" id="plant-modal">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeModal('plant-modal')">&times;</button>
+            <h3>Select Seed to Plant</h3>
+            <div id="plant-options-list" style="display:flex; flex-direction:column; gap:10px; margin-top:10px;">
+                <!-- Filled dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Popup Banner for Code 5555 -->
+    <div id="admin-popup">⚡ GOD MODE ACTIVATED: ALL SYSTEMS MAXED! ⚡</div>
+
+    <!-- Core Game Engine Script -->
+    <script>
+        // --- GAME STATE ---
+        let gameData = {
+            gold: 50,
+            essence: 10,
+            fertility: 100,
+            spireLevel: 1,
+            plots: [
+                { id: 0, state: 'empty', seed: null, growth: 0, watered: false, weeded: false },
+                { id: 1, state: 'empty', seed: null, growth: 0, watered: false, weeded: false },
+                { id: 2, state: 'empty', seed: null, growth: 0, watered: false, weeded: false },
+                { id: 3, state: 'empty', seed: null, growth: 0, watered: false, weeded: false },
+                { id: 4, state: 'empty', seed: null, growth: 0, watered: false, weeded: false },
+                { id: 5, state: 'empty', seed: null, growth: 0, watered: false, weeded: false }
+            ],
+            seeds: {
+                sunflower: { name: 'Sunflower', count: 5, time: 15, reward: 25, icon: '🌻' },
+                moonbloom: { name: 'Moonbloom', count: 2, time: 30, reward: 60, icon: '🌙' },
+                verdant_fern: { name: 'Verdant Fern', count: 1, time: 60, reward: 150, icon: '🌿' }
+            },
+            crops: {
+                sunflower: 0,
+                moonbloom: 0,
+                verdant_fern: 0
+            },
+            upgrades: {
+                rapidRoots: 0,
+                richCompost: 0,
+                autoSprinkler: 0
+            },
+            codesRedeemed: {
+                Om_thedev: false,
+                Upvote_omexla: false,
+                admin_5555: false
+            },
+            buffs: {
+                tempSpeedMultiplier: 1,
+                tempYieldBonus: 0
+            }
+        };
+
+        let activePlotIndex = null;
+        let selectedTool = 'water';
+        let currentWeather = 'Sunny & Calm ☀️';
+        let weatherTimer = 60;
+
+        // Seed definitions reference
+        const seedTypes = {
+            sunflower: { name: 'Sunflower', time: 15, reward: 25, icon: '🌻' },
+            moonbloom: { name: 'Moonbloom', time: 30, reward: 60, icon: '🌙' },
+            verdant_fern: { name: 'Verdant Fern', time: 60, reward: 150, icon: '🌿' }
+        };
+
+        // --- INITIALIZATION ---
+        window.addEventListener('DOMContentLoaded', () => {
+            loadGame();
+            renderPlots();
+            renderInventory();
+            startGameLoop();
+            logMessage("Ecosystem simulation active across all devices.");
+        });
+
+        // --- GAME LOOP (Runs every 1 second) ---
+        function startGameLoop() {
+            setInterval(() => {
+                updateGameTick();
+            }, 1000);
+        }
+
+        function updateGameTick() {
+            // Weather timer
+            weatherTimer--;
+            if (weatherTimer <= 0) {
+                shiftWeather();
+                weatherTimer = 60;
+            }
+            document.getElementById('weather-timer').innerText = `Next shift in ${weatherTimer}s`;
+
+            // Auto-sprinkler upgrade check
+            if (gameData.upgrades.autoSprinkler > 0) {
+                gameData.plots.forEach(plot => {
+                    if (plot.state === 'growing' && !plot.watered) {
+                        plot.watered = true;
+                    }
+                });
+            }
+
+            // Growth progression
+            gameData.plots.forEach(plot => {
+                if (plot.state === 'growing') {
+                    let speedMult = (plot.watered ? 1.5 : 0.5) * (1 + (gameData.upgrades.rapidRoots * 0.15)) * gameData.buffs.tempSpeedMultiplier;
+                    plot.growth += speedMult;
+
+                    if (plot.growth >= 100) {
+                        plot.growth = 100;
+                        plot.state = 'ready';
+                    }
+                }
+            });
+
+            renderPlots();
+            saveGameAuto();
+        }
+
+        // --- PLOT & GARDEN ACTIONS ---
+        function renderPlots() {
+            const container = document.getElementById('plots-container');
+            container.innerHTML = '';
+
+            gameData.plots.forEach((plot, index) => {
+                let card = document.createElement('div');
+                card.className = `plot-card ${plot.state !== 'empty' ? 'active' : ''}`;
+                card.onclick = () => handlePlotClick(index);
+
+                let icon = '🟫';
+                let statusText = 'Empty Soil';
+                let progressBarHtml = '';
+
+                if (plot.state === 'growing') {
+                    icon = seedTypes[plot.seed].icon;
+                    statusText = `Growing (${Math.floor(plot.growth)}%)<br>${plot.watered ? '💧 Watered' : '⚠️ Dry'}`;
+                    progressBarHtml = `
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: ${plot.growth}%;"></div>
+                        </div>
+                    `;
+                } else if (plot.state === 'ready') {
+                    icon = seedTypes[plot.seed].icon;
+                    statusText = '✨ Ready to Harvest!';
+                }
+
+                card.innerHTML = `
+                    <div class="plot-status">Plot #${index + 1}</div>
+                    <div class="plot-icon">${icon}</div>
+                    <div class="plot-status">${statusText}</div>
+                    ${progressBarHtml}
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function handlePlotClick(index) {
+            let plot = gameData.plots[index];
+
+            if (plot.state === 'empty') {
+                activePlotIndex = index;
+                openPlantModal();
+            } else if (plot.state === 'ready') {
+                harvestPlot(index);
+            } else if (plot.state === 'growing') {
+                // Apply selected tool
+                if (selectedTool === 'water') {
+                    plot.watered = true;
+                    logMessage(`Watered plot #${index + 1}.`);
+                    renderPlots();
+                } else if (selectedTool === 'fertilizer') {
+                    plot.growth += 20;
+                    if (plot.growth > 100) plot.growth = 100;
+                    logMessage(`Applied fertilizer to plot #${index + 1}.`);
+                    renderPlots();
+                }
+            }
+        }
+
+        function setSelectedTool(tool) {
+            selectedTool = tool;
+            logMessage(`Equipped tool: ${tool.toUpperCase()}`);
+        }
+
+        function openPlantModal() {
+            const list = document.getElementById('plant-options-list');
+            list.innerHTML = '';
+
+            let hasSeeds = false;
+            for (let [key, seedObj] of Object.entries(gameData.seeds)) {
+                if (seedObj.count > 0) {
+                    hasSeeds = true;
+                    let row = document.createElement('div');
+                    row.className = 'shop-row';
+                    row.innerHTML = `
+                        <div>
+                            <strong>${seedObj.icon} ${seedObj.name}</strong>
+                            <div style="font-size:0.7rem; color:var(--text-muted);">In inventory: ${seedObj.count}</div>
+                        </div>
+                        <button class="btn" onclick="plantSeed('${key}')">Plant</button>
+                    `;
+                    list.appendChild(row);
+                }
+            }
+
+            if (!hasSeeds) {
+                list.innerHTML = `<div style="font-size:0.85rem; color:var(--text-muted); text-align:center;">No seeds available in vault! Buy more or harvest.</div>`;
+            }
+
+            openModal('plant-modal');
+        }
+
+        function plantSeed(seedKey) {
+            if (activePlotIndex === null) return;
+            if (gameData.seeds[seedKey].count <= 0) return;
+
+            gameData.seeds[seedKey].count--;
+            let plot = gameData.plots[activePlotIndex];
+            plot.state = 'growing';
+            plot.seed = seedKey;
+            plot.growth = 0;
+            plot.watered = false;
+
+            closeModal('plant-modal');
+            renderInventory();
+            renderPlots();
+            logMessage(`Planted ${seedTypes[seedKey].name} in plot #${activePlotIndex + 1}.`);
+            activePlotIndex = null;
+        }
+
+        function harvestPlot(index) {
+            let plot = gameData.plots[index];
+            let seedKey = plot.seed;
+            let yieldBonus = gameData.upgrades.richCompost * 5 + gameData.buffs.tempYieldBonus;
+            let goldEarned = seedTypes[seedKey].reward + yieldBonus;
+
+            gameData.gold += goldEarned;
+            gameData.crops[seedKey]++;
+            gameData.seeds[seedKey].count += 1; // Seed return on harvest
+
+            logMessage(`Harvested ${seedTypes[seedKey].name}! Gained ${goldEarned} gold coins.`);
+
+            plot.state = 'empty';
+            plot.seed = null;
+            plot.growth = 0;
+            plot.watered = false;
+
+            renderPlots();
+            renderInventory();
+            updateResourceUI();
+        }
+
+        // --- INVENTORY & UI RENDERING ---
+        function renderInventory() {
+            const seedContainer = document.getElementById('seeds-inventory');
+            seedContainer.innerHTML = '';
+            for (let [key, val] of Object.entries(gameData.seeds)) {
+                let div = document.createElement('div');
+                div.className = 'item-list-card';
+                div.innerHTML = `
+                    <div class="item-info">
+                        <h4>${val.icon} ${val.name}</h4>
+                        <p>Available: ${val.count}</p>
+                    </div>
+                `;
+                seedContainer.appendChild(div);
+            }
+
+            const cropContainer = document.getElementById('crops-inventory');
+            cropContainer.innerHTML = '';
+            for (let [key, count] of Object.entries(gameData.crops)) {
+                let div = document.createElement('div');
+                div.className = 'item-list-card';
+                div.style.borderLeftColor = 'var(--accent-blue)';
+                div.innerHTML = `
+                    <div class="item-info">
+                        <h4>${seedTypes[key].icon} ${seedTypes[key].name}</h4>
+                        <p>Stored: ${count}</p>
+                    </div>
+                `;
+                cropContainer.appendChild(div);
+            }
+
+            updateResourceUI();
+        }
+
+        function updateResourceUI() {
+            document.getElementById('res-gold').innerText = gameData.gold;
+            document.getElementById('res-essence').innerText = gameData.essence;
+            document.getElementById('stat-fertility').innerText = `${gameData.fertility}%`;
+            document.getElementById('stat-core').innerText = `Level ${gameData.spireLevel}`;
+        }
+
+        function shiftWeather() {
+            const weathers = [
+                { name: 'Sunny & Calm ☀️', desc: 'Standard growth rates.' },
+                { name: 'Gentle Rain 🌧️', desc: 'All unwatered plots automatically hydrated!' },
+                { name: 'Mystic Bloom Aura ✨', desc: '+50% growth speed boost!' }
+            ];
+            let selected = weathers[Math.floor(Math.random() * weathers.length)];
+            currentWeather = selected.name;
+            document.getElementById('weather-display').innerText = currentWeather;
+
+            if (selected.name.includes('Rain')) {
+                gameData.plots.forEach(p => { if (p.state === 'growing') p.watered = true; });
+                logMessage('Gentle rain watered all active plots!');
+            }
+        }
+
+        // --- UPGRADES & CRAFTING ---
+        function buyUpgrade(type) {
+            if (type === 'rapidRoots' && gameData.gold >= 25) {
+                gameData.gold -= 25;
+                gameData.upgrades.rapidRoots++;
+                logMessage('Purchased Rapid Roots upgrade.');
+            } else if (type === 'richCompost' && gameData.gold >= 40) {
+                gameData.gold -= 40;
+                gameData.upgrades.richCompost++;
+                logMessage('Purchased Rich Compost upgrade.');
+            } else if (type === 'autoSprinkler' && gameData.gold >= 150) {
+                gameData.gold -= 150;
+                gameData.upgrades.autoSprinkler++;
+                logMessage('Installed Auto-Sprinkler system.');
+            } else {
+                logMessage('Not enough gold for this upgrade.');
+            }
+            updateResourceUI();
+        }
+
+        function craftEssence() {
+            let totalCrops = Object.values(gameData.crops).reduce((a, b) => a + b, 0);
+            if (totalCrops >= 3) {
+                // Deduct 3 crops
+                let deducted = 0;
+                for (let key in gameData.crops) {
+                    while (gameData.crops[key] > 0 && deducted < 3) {
+                        gameData.crops[key]--;
+                        deducted++;
+                    }
+                }
+                gameData.essence += 5;
+                logMessage('Alchemized crops into 5 Essence units.');
+                renderInventory();
+            } else {
+                logMessage('Need at least 3 total harvested crops to refine essence.');
+            }
+        }
+
+        // --- CODE REDEMPTION & ADMIN SYSTEM ---
+        function handleCodeKeydown(event) {
+            if (event.key === 'Enter') {
+                submitPromoCode();
+            }
+        }
+
+        function submitPromoCode() {
+            const inputField = document.getElementById('promo-code-input');
+            const code = inputField.value.trim();
+            inputField.value = '';
+
+            if (code === '5555') {
+                // Admin God Mode Code
+                if (!gameData.codesRedeemed.admin_5555) {
+                    gameData.codesRedeemed.admin_5555 = true;
+                    gameData.gold += 99999;
+                    gameData.essence += 9999;
+                    gameData.spireLevel = 99;
+                    gameData.upgrades.rapidRoots += 10;
+                    gameData.upgrades.richCompost += 10;
+                    gameData.upgrades.autoSprinkler = 1;
+                    for (let s in gameData.seeds) gameData.seeds[s].count += 50;
+                }
+                
+                triggerAdminPopup("⚡ ADMIN CODE 5555 ACCEPTED: Max Attributes & Unlimited Buffs Granted! ⚡");
+                logMessage("ADMIN OVERRIDE: Code 5555 executed successfully.");
+            } 
+            else if (code === 'Om_thedev') {
+                // Minor reward, temporary stuff
+                if (!gameData.codesRedeemed.Om_thedev) {
+                    gameData.codesRedeemed.Om_thedev = true;
+                    gameData.seeds.sunflower.count += 3;
+                    gameData.buffs.tempSpeedMultiplier = 1.25;
+                    setTimeout(() => { gameData.buffs.tempSpeedMultiplier = 1; }, 60000); // 1 min buff
+                }
+                triggerAdminPopup("🌱 Code 'Om_thedev' Applied: +3 Sunflowers & Temporary +25% Speed Boost!");
+                logMessage("Redeemed developer code: Om_thedev.");
+            }
+            else if (code === 'Upvote_omexla') {
+                // Slightly better buffs from dev code
+                if (!gameData.codesRedeemed.Upvote_omexla) {
+                    gameData.codesRedeemed.Upvote_omexla = true;
+                    gameData.gold += 250;
+                    gameData.buffs.tempYieldBonus = 15;
+                    setTimeout(() => { gameData.buffs.tempYieldBonus = 0; }, 120000); // 2 min buff
+                }
+                triggerAdminPopup("🌟 Code 'Upvote_omexla' Applied: +250 Gold & Temporary Yield Buff!");
+                logMessage("Redeemed community code: Upvote_omexla.");
+            }
+            else {
+                // Useless code / invalid fallback
+                triggerAdminPopup(`❌ Code '${code}' is invalid or expired. Minor consolation: +5 Gold!`);
+                gameData.gold += 5;
+                logMessage(`Entered invalid code: "${code}". Consolation gold awarded.`);
+            }
+
+            updateResourceUI();
+            renderInventory();
+            closeModal('settings-modal');
+        }
+
+        function triggerAdminPopup(message) {
+            const popup = document.getElementById('admin-popup');
+            popup.innerText = message;
+            popup.classList.add('show');
+            setTimeout(() => {
+                popup.classList.remove('show');
+            }, 3000); // exactly 3 seconds element popup as requested
+        }
+
+        // --- MODAL UTILITIES ---
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('open');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('open');
+        }
+
+        // --- CONSOLE LOGGER ---
+        function logMessage(text) {
+            const logBox = document.getElementById('console-log');
+            let time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            logBox.innerHTML += `[${time}] ${text}<br>`;
+            logBox.scrollTop = logBox.scrollHeight;
+        }
+
+        // --- SAVE / LOAD SYSTEMS ---
+        function saveGameManual() {
+            localStorage.setItem('sprout_spire_save', JSON.stringify(gameData));
+            logMessage("Game saved successfully to device storage.");
+        }
+
+        function saveGameAuto() {
+            localStorage.setItem('sprout_spire_save', JSON.stringify(gameData));
+        }
+
+        function loadGame() {
+            let saved = localStorage.getItem('sprout_spire_save');
+            if (saved) {
+                try {
+                    gameData = JSON.parse(saved);
+                    logMessage("Loaded existing save data.");
+                } catch(e) {
+                    console.error("Failed to load save data", e);
+                }
+            }
+            updateResourceUI();
+        }
+
+        function hardReset() {
+            if (confirm("Are you sure you want to completely wipe all progress?")) {
+                localStorage.removeItem('sprout_spire_save');
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
