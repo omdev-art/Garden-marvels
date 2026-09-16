@@ -3,21 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sprout & Spire: Chronicles of the Verdant Core</title>
+    <title>Sprout & Spire: Chronicles of the Verdant Core (Massive Edition)</title>
     <style>
         :root {
-            --bg-primary: #f4f9f4;
-            --bg-secondary: #ffffff;
-            --bg-tertiary: #e2ede2;
-            --accent-green: #27ae60;
-            --accent-gold: #d4ac0d;
-            --accent-red: #c0392b;
-            --accent-blue: #2980b9;
-            --accent-purple: #8e44ad;
-            --text-main: #2c3e50;
-            --text-muted: #7f8c8d;
-            --border-color: #bdc3c7;
-            --panel-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --accent-green: #10b981;
+            --accent-gold: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-blue: #3b82f6;
+            --accent-purple: #a855f7;
+            --accent-pink: #ec4899;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #475569;
+            --panel-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
         }
 
         * {
@@ -39,21 +40,24 @@
             overflow-x: hidden;
         }
 
+        /* Top Navigation Header */
         header {
-            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+            background: var(--bg-secondary);
             border-bottom: 2px solid var(--border-color);
-            padding: 12px 20px;
+            padding: 10px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             z-index: 100;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .logo-area h1 {
-            font-size: 1.15rem;
+            font-size: 1.25rem;
             color: var(--accent-green);
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
         }
 
         .logo-area p {
@@ -61,22 +65,22 @@
             color: var(--text-muted);
         }
 
-        .header-controls {
+        .top-nav-controls {
             display: flex;
             gap: 8px;
+            flex-wrap: wrap;
         }
 
         .btn {
-            background: var(--bg-secondary);
+            background: var(--bg-tertiary);
             color: var(--text-main);
             border: 1px solid var(--border-color);
-            padding: 8px 12px;
+            padding: 6px 12px;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
             transition: all 0.2s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
 
         .btn:hover {
@@ -85,31 +89,24 @@
             border-color: var(--accent-green);
         }
 
-        .btn:active {
-            transform: scale(0.96);
-        }
+        .btn-gold { background: var(--accent-gold); color: #000; border-color: var(--accent-gold); }
+        .btn-gold:hover { background: #d97706; color: #fff; }
+        .btn-purple { background: var(--accent-purple); color: #fff; border-color: var(--accent-purple); }
+        .btn-purple:hover { background: #9333ea; }
 
-        .btn-purple {
-            background: var(--accent-purple);
-            color: #fff;
-            border-color: var(--accent-purple);
-        }
-        .btn-purple:hover {
-            background: #732d91;
-        }
-
+        /* Main Grid Layout */
         .game-container {
             display: grid;
-            grid-template-columns: 260px 1fr 280px;
+            grid-template-columns: 280px 1fr 300px;
             gap: 12px;
             padding: 12px;
             flex: 1;
-            max-width: 1500px;
+            max-width: 1600px;
             margin: 0 auto;
             width: 100%;
         }
 
-        @media (max-width: 1024px) {
+        @media (max-width: 1100px) {
             .game-container {
                 grid-template-columns: 1fr;
             }
@@ -118,18 +115,18 @@
         .panel {
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: 10px;
             padding: 12px;
             box-shadow: var(--panel-shadow);
             display: flex;
             flex-direction: column;
             gap: 12px;
-            max-height: calc(100vh - 80px);
+            max-height: calc(100vh - 90px);
             overflow-y: auto;
         }
 
         .panel h2 {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--accent-green);
             border-bottom: 1px solid var(--bg-tertiary);
             padding-bottom: 6px;
@@ -157,11 +154,12 @@
         }
 
         .resource-card .value {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: bold;
             color: var(--accent-green);
         }
 
+        /* Center Play Area */
         .garden-main-area {
             display: flex;
             flex-direction: column;
@@ -171,17 +169,17 @@
         .weather-banner {
             background: var(--bg-secondary);
             padding: 10px 14px;
-            border-radius: 6px;
+            border-radius: 8px;
             border: 1px solid var(--accent-blue);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
 
         .plots-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
             gap: 10px;
         }
 
@@ -194,22 +192,23 @@
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            min-height: 150px;
+            min-height: 160px;
             cursor: pointer;
             transition: all 0.2s;
             position: relative;
         }
 
         .plot-card.locked {
-            background: #e9ecef;
+            background: #1e293b;
             border-style: dotted;
             cursor: not-allowed;
+            opacity: 0.7;
         }
 
         .plot-card.active {
             border-style: solid;
             border-color: var(--accent-green);
-            background: #ffffff;
+            background: #111827;
         }
 
         .plot-status {
@@ -219,7 +218,7 @@
         }
 
         .plot-icon {
-            font-size: 2rem;
+            font-size: 2.2rem;
             margin: 6px 0;
         }
 
@@ -227,7 +226,7 @@
             width: 100%;
             background: var(--bg-tertiary);
             border-radius: 4px;
-            height: 5px;
+            height: 6px;
             overflow: hidden;
             margin-top: 4px;
         }
@@ -238,13 +237,39 @@
             width: 0%;
         }
 
+        /* Pet Slots */
+        .pet-container {
+            display: flex;
+            gap: 8px;
+            justify-content: space-between;
+        }
+
+        .pet-slot {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 6px;
+            flex: 1;
+            text-align: center;
+            font-size: 0.7rem;
+        }
+
+        .pet-slot img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 2px;
+        }
+
+        /* Modals & Popups */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.7);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -262,15 +287,17 @@
         .modal-box {
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: 10px;
+            border-radius: 12px;
             width: 90%;
-            max-width: 400px;
+            max-width: 450px;
             padding: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
             display: flex;
             flex-direction: column;
             gap: 12px;
             position: relative;
+            max-height: 85vh;
+            overflow-y: auto;
         }
 
         .modal-close {
@@ -280,7 +307,7 @@
             background: none;
             border: none;
             color: var(--text-muted);
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             cursor: pointer;
         }
 
@@ -306,7 +333,7 @@
             padding: 8px;
             font-family: monospace;
             font-size: 0.7rem;
-            height: 100px;
+            height: 120px;
             overflow-y: auto;
             color: var(--accent-green);
             border: 1px solid var(--border-color);
@@ -319,23 +346,23 @@
             background: var(--bg-primary);
             padding: 8px;
             border-radius: 6px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
         }
 
         #admin-popup {
             position: fixed;
             top: 20px;
             left: 50%;
-            transform: translateX(-50%) translateY(-80px);
+            transform: translateX(-50%) translateY(-100px);
             background: var(--accent-gold);
-            color: #ffffff;
-            padding: 10px 20px;
-            border-radius: 6px;
+            color: #000;
+            padding: 12px 24px;
+            border-radius: 8px;
             font-weight: bold;
             font-size: 0.9rem;
             z-index: 2000;
             transition: transform 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
         }
         #admin-popup.show {
             transform: translateX(-50%) translateY(0);
@@ -344,86 +371,146 @@
 </head>
 <body>
 
+    <!-- Top Navigation Bar for All Features -->
     <header>
         <div class="logo-area">
-            <h1>🌱 SPROUT & SPIRE</h1>
-            <p>Clean Core Edition v2.2</p>
+            <h1>🌱 SPROUT & SPIRE: VERDANT CORE</h1>
+            <p>Massive Expansion Edition v3.0 | Multi-File Architecture Ready</p>
         </div>
-        <div class="header-controls">
-            <button class="btn btn-purple" onclick="openModal('rebirth-modal')">🌌 Rebirth Portal</button>
+        <div class="top-nav-controls">
+            <button class="btn btn-gold" onclick="openModal('merchant-modal')">🛒 Merchant Stock</button>
+            <button class="btn btn-purple" onclick="openModal('achievements-modal')">🏆 Achievements (<span id="ach-count">0</span>)</button>
+            <button class="btn" onclick="openModal('blog-modal')">📜 Dev Logs & Updates</button>
+            <button class="btn btn-purple" onclick="openModal('rebirth-modal')">🌌 Rebirth & World</button>
             <button class="btn" onclick="openModal('settings-modal')">⚙️ Settings</button>
         </div>
     </header>
 
     <div class="game-container">
-        <!-- Left Panel: Stats & Shop -->
+        <!-- Left Panel: Stats, Sprinklers & Pets -->
         <div class="panel">
             <h2>Ecosystem Stats</h2>
             <div class="resource-grid">
                 <div class="resource-card">
                     <div class="label">Gold</div>
-                    <div class="value" id="res-gold">50</div>
+                    <div class="value" id="res-gold">100</div>
                 </div>
                 <div class="resource-card">
                     <div class="label">Essence</div>
-                    <div class="value" id="res-essence">10</div>
+                    <div class="value" id="res-essence">20</div>
                 </div>
                 <div class="resource-card">
                     <div class="label">Fertility</div>
                     <div class="value" id="stat-fertility">100%</div>
                 </div>
                 <div class="resource-card">
-                    <div class="label">World</div>
+                    <div class="label">World Level</div>
                     <div class="value" id="stat-world">World 1</div>
                 </div>
             </div>
 
-            <h2>Supplies & Fertilizer</h2>
-            <div class="shop-row">
-                <div>Anti-Rot Spray (x<span id="inv-antirot">0</span>)</div>
-                <button class="btn" onclick="buyFertilizer('antiRot')">Buy (25g)</button>
+            <h2>Equipped Pets (Max 2)</h2>
+            <div class="pet-container" id="equipped-pets-display">
+                <!-- Dynamically populated -->
             </div>
-            
-            <h2 style="margin-top:10px;">World Travel</h2>
+
+            <h2>Sprinkler System</h2>
             <div class="shop-row">
-                <div>Switch Realm</div>
-                <button class="btn" onclick="toggleWorld()">Toggle W1/W2</button>
+                <div>Active Sprinklers: <span id="sprinkler-count">0</span></div>
+                <button class="btn" onclick="buySprinkler()">Build (150g)</button>
             </div>
         </div>
 
-        <!-- Center Panel: Garden Plots -->
+        <!-- Center Panel: Garden Plots & Status Feed -->
         <div class="garden-main-area">
             <div class="weather-banner">
                 <div>Climate: <span id="weather-display" style="color:var(--accent-blue); font-weight:bold;">Sunny & Calm ☀️</span></div>
-                <div style="font-size:0.75rem; color:var(--text-muted);" id="weather-timer">Next shift in 60s</div>
+                <div style="font-size:0.75rem; color:var(--text-muted);" id="weather-timer">Shift in 60s</div>
             </div>
 
             <div class="panel" style="flex:1; max-height:none;">
-                <h2>Garden Plots <span style="font-size:0.7rem; color:var(--text-muted);">Tap plot to unlock/plant</span></h2>
+                <h2>Garden Plots <span style="font-size:0.7rem; color:var(--text-muted);">Unlock lanes & plant exotic flora</span></h2>
                 <div class="plots-grid" id="plots-container"></div>
+            </div>
+
+            <!-- Persistent Status Panel / Event Feed -->
+            <div class="panel" style="max-height:160px;">
+                <h2>Live Status Feed & System Logs</h2>
+                <div class="console-log" id="console-log">
+                    [00:00] Verdant Core Massive System initialized successfully.<br>
+                </div>
             </div>
         </div>
 
-        <!-- Right Panel: Inventory & Logs -->
+        <!-- Right Panel: Seed Vault & Inventory -->
         <div class="panel">
             <h2>Seed Vault</h2>
             <div id="seeds-inventory" style="display:flex; flex-direction:column; gap:6px;"></div>
 
-            <h2>System Log</h2>
-            <div class="console-log" id="console-log">
-                [00:00] Verdant Core initialized.<br>
+            <h2>Supplies & Buffers</h2>
+            <div class="shop-row">
+                <div>Anti-Rot Spray (x<span id="inv-antirot">2</span>)</div>
+                <button class="btn" onclick="buyItem('antiRot')">Buy (35g)</button>
+            </div>
+            <div class="shop-row">
+                <div>Growth Catalyst (x<span id="inv-catalyst">1</span>)</div>
+                <button class="btn" onclick="buyItem('catalyst')">Buy (60g)</button>
             </div>
         </div>
     </div>
 
-    <!-- Rebirth Modal -->
+    <!-- Merchant Stock Modal -->
+    <div class="modal-overlay" id="merchant-modal">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeModal('merchant-modal')">&times;</button>
+            <h3 style="color:var(--accent-gold);">🛒 Traveling Merchant Stock</h3>
+            <p style="font-size:0.75rem; color:var(--text-muted);">Merchant restocks automatically or use 50 Essence for an instant restock with 3x Luck!</p>
+            <div style="margin: 8px 0;">
+                <button class="btn btn-purple" style="width:100%;" onclick="restockMerchantWithEssence()">Instant Restock (Cost: 50 Essence, 3x Luck)</button>
+            </div>
+            <div id="merchant-stock-list" style="display:flex; flex-direction:column; gap:8px; margin-top:6px;"></div>
+        </div>
+    </div>
+
+    <!-- Achievements Modal -->
+    <div class="modal-overlay" id="achievements-modal">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeModal('achievements-modal')">&times;</button>
+            <h3 style="color:var(--accent-purple);">🏆 Milestone Achievements</h3>
+            <div id="achievements-list" style="display:flex; flex-direction:column; gap:8px; margin-top:6px;"></div>
+        </div>
+    </div>
+
+    <!-- Blog & Update Notes Modal -->
+    <div class="modal-overlay" id="blog-modal">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeModal('blog-modal')">&times;</button>
+            <h3 style="color:var(--accent-green);">📜 Dev Blog & Code Redemption Hub</h3>
+            <p style="font-size:0.75rem; color:var(--text-muted);">Redeem special update codes below for massive progression bonuses!</p>
+            
+            <div class="input-group" style="margin-top:6px;">
+                <input type="text" id="promo-code-input" class="input-field" placeholder="Enter code (e.g. sorry_for_update)...">
+                <button class="btn" onclick="submitPromoCode()">Redeem</button>
+            </div>
+
+            <div style="background:var(--bg-primary); padding:10px; border-radius:6px; font-size:0.75rem; margin-top:10px; display:flex; flex-direction:column; gap:6px;">
+                <strong>Latest Dev Blog - Patch v3.0</strong>
+                <p style="color:var(--text-muted);">We heard you loud and clear! This update brings massive garden plots, traveling merchants, pet companions with actual icons, sprinklers, weather mutations, and deep multi-world progression. Use code <code>sorry_for_update</code> for a special compensation reward package!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rebirth Portal Modal -->
     <div class="modal-overlay" id="rebirth-modal">
         <div class="modal-box">
             <button class="modal-close" onclick="closeModal('rebirth-modal')">&times;</button>
-            <h3 style="color:var(--accent-purple);">🌌 Realm Rebirth</h3>
-            <p style="font-size:0.8rem; color:var(--text-muted);">Transcend your current garden using Essence to unlock **World 2** and higher-tier rare seed yields!</p>
-            <div style="font-size:0.85rem; font-weight:bold;">Requirement: 100 Essence</div>
-            <button class="btn btn-purple" style="width:100%; margin-top:6px;" onclick="triggerRebirth()">Perform Rebirth</button>
+            <h3 style="color:var(--accent-purple);">🌌 Realm Rebirth & World Navigation</h3>
+            <p style="font-size:0.75rem; color:var(--text-muted);">Teleport across dimensions, unlock World 2, and harvest rare star seeds.</p>
+            <div style="font-size:0.8rem; font-weight:bold;">Requirement: 150 Essence</div>
+            <div style="display:flex; gap:8px; margin-top:6px;">
+                <button class="btn btn-purple" style="flex:1;" onclick="triggerRebirth()">Perform Rebirth</button>
+                <button class="btn" style="flex:1;" onclick="toggleWorld()">Toggle World 1/2</button>
+            </div>
         </div>
     </div>
 
@@ -431,17 +518,10 @@
     <div class="modal-overlay" id="settings-modal">
         <div class="modal-box">
             <button class="modal-close" onclick="closeModal('settings-modal')">&times;</button>
-            <h3 style="color:var(--accent-green);">Settings & Code Redemption</h3>
-            <p style="font-size:0.8rem; color:var(--text-muted);">Enter promo or admin codes below:</p>
-            
-            <div class="input-group" style="margin-top:6px;">
-                <input type="text" id="promo-code-input" class="input-field" placeholder="Enter code...">
-                <button class="btn" onclick="submitPromoCode()">Redeem</button>
-            </div>
-
-            <div style="border-top: 1px solid var(--bg-tertiary); padding-top:10px; display:flex; gap:8px;">
-                <button class="btn" style="flex:1;" onclick="saveGame()">Save Game</button>
-                <button class="btn" style="flex:1; background:var(--accent-red); color:#fff; border-color:var(--accent-red);" onclick="hardReset()">Hard Reset</button>
+            <h3 style="color:var(--accent-green);">⚙️ Settings & System Controls</h3>
+            <div style="display:flex; flex-direction:column; gap:8px; margin-top:10px;">
+                <button class="btn" onclick="saveGame()">Save Game Data</button>
+                <button class="btn" style="background:var(--accent-red); color:#fff; border-color:var(--accent-red);" onclick="hardReset()">Hard Reset Progress</button>
             </div>
         </div>
     </div>
@@ -459,33 +539,55 @@
 
     <script>
         let gameData = {
-            gold: 50,
-            essence: 10,
+            gold: 150,
+            essence: 30,
             fertility: 100,
             world: 1,
+            sprinklers: 0,
             plots: [
                 { id: 0, unlocked: true, state: 'empty', seed: null, growth: 0 },
                 { id: 1, unlocked: true, state: 'empty', seed: null, growth: 0 },
-                { id: 2, unlocked: false, state: 'locked', seed: null, growth: 0, cost: 100 },
-                { id: 3, unlocked: false, state: 'locked', seed: null, growth: 0, cost: 250 }
+                { id: 2, unlocked: false, state: 'locked', seed: null, growth: 0, cost: 120 },
+                { id: 3, unlocked: false, state: 'locked', seed: null, growth: 0, cost: 300 },
+                { id: 4, unlocked: false, state: 'locked', seed: null, growth: 0, cost: 600 }
             ],
             seeds: {
-                sunflower: { name: 'Sunflower', count: 5, time: 10, reward: 20, icon: '🌻', world: 1 },
-                moonbloom: { name: 'Moonbloom', count: 2, time: 20, reward: 50, icon: '🌙', world: 1 },
-                stellaris: { name: 'Stellaris Crystal', count: 0, time: 15, reward: 150, icon: '💎', world: 2 },
-                voidsprout: { name: 'Void Sprout', count: 0, time: 30, reward: 400, icon: '🌌', world: 2 }
+                sunflower: { name: 'Sunflower', count: 8, time: 10, reward: 25, icon: '🌻', world: 1 },
+                moonbloom: { name: 'Moonbloom', count: 3, time: 20, reward: 60, icon: '🌙', world: 1 },
+                stellaris: { name: 'Stellaris Crystal', count: 0, time: 15, reward: 180, icon: '💎', world: 2 },
+                voidsprout: { name: 'Void Sprout', count: 0, time: 25, reward: 450, icon: '🌌', world: 2 }
             },
-            antiRotCount: 0,
-            codesRedeemed: { Om_thedev: false, Upvote_omexla: false, admin_5555: false }
+            merchantStock: [
+                { id: 'sunflower', name: 'Sunflower Seeds (x5)', cost: 40, type: 'seed', key: 'sunflower', qty: 5 },
+                { id: 'moonbloom', name: 'Moonbloom Seeds (x3)', cost: 90, type: 'seed', key: 'moonbloom', qty: 3 },
+                { id: 'antiRot', name: 'Anti-Rot Spray', cost: 30, type: 'item', key: 'antiRot', qty: 1 }
+            ],
+            pets: [
+                { id: 'fox', name: 'Verdant Fox', icon: 'https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=120&q=80', bonus: '+20% Gold Harvest', equipped: true },
+                { id: 'owl', name: 'Mystic Owl', icon: 'https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?auto=format&fit=crop&w=120&q=80', bonus: '-15% Growth Time', equipped: false }
+            ],
+            achievements: [
+                { id: 'first_harvest', name: 'First Sprout', desc: 'Harvest your very first crop', completed: false },
+                { id: 'world_traveler', name: 'Dimension Hopper', desc: 'Teleport to World 2', completed: false },
+                { id: 'wealthy_farmer', name: 'Tycoon of Soil', desc: 'Accumulate 1,000 Gold', completed: false }
+            ],
+            antiRotCount: 2,
+            catalystCount: 1,
+            luckMultiplier: 1,
+            codesRedeemed: { Om_thedev: false, Upvote_omexla: false, sorry_for_update: false, admin_5555: false }
         };
 
         let activePlotIndex = null;
         let weatherTimer = 60;
+        let currentWeather = 'Sunny & Calm ☀️';
 
         window.addEventListener('DOMContentLoaded', () => {
             loadGame();
             renderPlots();
             renderInventory();
+            renderPets();
+            renderMerchantStock();
+            renderAchievements();
             updateUI();
             setInterval(gameTick, 1000);
         });
@@ -494,13 +596,19 @@
             weatherTimer--;
             if (weatherTimer <= 0) {
                 weatherTimer = 60;
-                document.getElementById('weather-display').innerText = Math.random() > 0.5 ? 'Gentle Rain 🌧️' : 'Sunny & Calm ☀️';
+                const weathers = ['Sunny & Calm ☀️', 'Gentle Rain 🌧️ (Boost)', 'Mystic Fog 🌫️ (Mutation)', 'Solar Flare 🔥 (Speed)'];
+                currentWeather = weathers[Math.floor(Math.random() * weathers.length)];
+                document.getElementById('weather-display').innerText = currentWeather;
+                logMessage(`Weather shifted to: ${currentWeather}`);
             }
-            document.getElementById('weather-timer').innerText = `Next shift in ${weatherTimer}s`;
+            document.getElementById('weather-timer').innerText = `Shift in ${weatherTimer}s`;
+
+            let growthRate = 5 + (gameData.sprinklers * 2);
+            if (currentWeather.includes('Solar Flare')) growthRate += 5;
 
             gameData.plots.forEach(plot => {
                 if (plot.state === 'growing') {
-                    plot.growth += 5;
+                    plot.growth += growthRate;
                     if (plot.growth >= 100) {
                         plot.growth = 100;
                         plot.state = 'ready';
@@ -532,7 +640,7 @@
                         bar = `<div class="progress-bar-container"><div class="progress-bar" style="width:${plot.growth}%"></div></div>`;
                     } else if (plot.state === 'ready') {
                         icon = gameData.seeds[plot.seed].icon;
-                        statusText = '✨ Ready!';
+                        statusText = '✨ Ready to Harvest!';
                     }
                     card.innerHTML = `<div class="plot-status">Plot #${index + 1}</div><div class="plot-icon">${icon}</div><div class="plot-status">${statusText}</div>${bar}`;
                 }
@@ -551,7 +659,7 @@
                     renderPlots();
                     updateUI();
                 } else {
-                    logMessage(`Not enough gold to unlock Plot #${index + 1}.`);
+                    logMessage(`Not enough gold for Plot #${index + 1}. Requires ${plot.cost}g.`);
                 }
                 return;
             }
@@ -561,12 +669,15 @@
                 openPlantModal();
             } else if (plot.state === 'ready') {
                 let seedObj = gameData.seeds[plot.seed];
-                gameData.gold += seedObj.reward;
-                gameData.essence += 2;
-                seedObj.count++;
+                let bonusGold = seedObj.reward * gameData.luckMultiplier;
+                gameData.gold += bonusGold;
+                gameData.essence += 3;
+                seedObj.count += 1;
                 plot.state = 'empty';
                 plot.growth = 0;
-                logMessage(`Harvested ${seedObj.name}! Gained ${seedObj.reward} gold & 2 essence.`);
+
+                checkAchievements();
+                logMessage(`Harvested ${seedObj.name}! Gained ${bonusGold} gold & 3 Essence.`);
                 renderPlots();
                 renderInventory();
                 updateUI();
@@ -581,7 +692,7 @@
                     list.innerHTML += `<div class="shop-row"><div><strong>${seed.icon} ${seed.name}</strong> (Owned: ${seed.count})</div><button class="btn" onclick="plantSeed('${key}')">Plant</button></div>`;
                 }
             }
-            if (!list.innerHTML) list.innerHTML = `<div style="font-size:0.8rem; color:var(--text-muted); text-align:center;">No seeds for World ${gameData.world} available!</div>`;
+            if (!list.innerHTML) list.innerHTML = `<div style="font-size:0.8rem; color:var(--text-muted); text-align:center;">No seeds available for World ${gameData.world}! Visit Merchant.</div>`;
             openModal('plant-modal');
         }
 
@@ -598,37 +709,79 @@
             logMessage(`Planted ${gameData.seeds[key].name}.`);
         }
 
-        function buyFertilizer(type) {
-            if (type === 'antiRot' && gameData.gold >= 25) {
-                gameData.gold -= 25;
-                gameData.antiRotCount++;
-                logMessage("Purchased Anti-Rot Spray.");
+        function renderMerchantStock() {
+            const list = document.getElementById('merchant-stock-list');
+            list.innerHTML = '';
+            gameData.merchantStock.forEach((item, idx) => {
+                list.innerHTML += `<div class="shop-row"><div><strong>${item.name}</strong> - ${item.cost}g</div><button class="btn" onclick="buyMerchantItem(${idx})">Buy</button></div>`;
+            });
+        }
+
+        function buyMerchantItem(idx) {
+            let item = gameData.merchantStock[idx];
+            if (gameData.gold >= item.cost) {
+                gameData.gold -= item.cost;
+                if (item.type === 'seed') {
+                    gameData.seeds[item.key].count += item.qty;
+                } else if (item.type === 'item') {
+                    gameData.antiRotCount += item.qty;
+                }
+                logMessage(`Purchased ${item.name} from Merchant.`);
                 updateUI();
+                renderInventory();
+            } else {
+                logMessage("Not enough gold for merchant item.");
             }
         }
 
-        function toggleWorld() {
-            gameData.world = gameData.world === 1 ? 2 : 1;
-            logMessage(`Teleported to World ${gameData.world}.`);
+        function restockMerchantWithEssence() {
+            if (gameData.essence >= 50) {
+                gameData.essence -= 50;
+                gameData.luckMultiplier = 3;
+                showPopup("✨ 3x Luck Activated & Merchant Restocked!");
+                logMessage("Restocked merchant with 50 Essence. 3x Luck active!");
+                updateUI();
+            } else {
+                showPopup("❌ Need 50 Essence to restock!");
+            }
+        }
+
+        function buySprinkler() {
+            if (gameData.gold >= 150) {
+                gameData.gold -= 150;
+                gameData.sprinklers++;
+                document.getElementById('sprinkler-count').innerText = gameData.sprinklers;
+                logMessage("Built automatic sprinkler system.");
+                updateUI();
+            } else {
+                logMessage("Not enough gold for sprinkler.");
+            }
+        }
+
+        function buyItem(type) {
+            if (type === 'antiRot' && gameData.gold >= 35) {
+                gameData.gold -= 35;
+                gameData.antiRotCount++;
+                logMessage("Purchased Anti-Rot Spray.");
+            } else if (type === 'catalyst' && gameData.gold >= 60) {
+                gameData.gold -= 60;
+                gameData.catalystCount++;
+                logMessage("Purchased Growth Catalyst.");
+            } else {
+                logMessage("Not enough gold for supplies.");
+            }
             updateUI();
             renderInventory();
         }
 
-        function triggerRebirth() {
-            if (gameData.essence >= 100) {
-                gameData.essence -= 100;
-                gameData.world = 2;
-                gameData.seeds.stellaris.count += 5;
-                gameData.plots.forEach(p => { p.state = 'empty'; p.growth = 0; });
-                closeModal('rebirth-modal');
-                showPopup("🌌 WELCOME TO WORLD 2!");
-                logMessage("Rebirth successful! Unlocked World 2 and received high-tier seeds.");
-                updateUI();
-                renderPlots();
-                renderInventory();
-            } else {
-                showPopup("❌ Need 100 Essence to Rebirth!");
-            }
+        function renderPets() {
+            const container = document.getElementById('equipped-pets-display');
+            container.innerHTML = '';
+            gameData.pets.forEach(pet => {
+                if (pet.equipped) {
+                    container.innerHTML += `<div class="pet-slot"><img src="${pet.icon}" alt="${pet.name}"><div><strong>${pet.name}</strong></div><div style="color:var(--accent-green);">${pet.bonus}</div></div>`;
+                }
+            });
         }
 
         function renderInventory() {
@@ -640,13 +793,50 @@
                 }
             }
             document.getElementById('inv-antirot').innerText = gameData.antiRotCount;
+            document.getElementById('inv-catalyst').innerText = gameData.catalystCount;
         }
 
-        function updateUI() {
-            document.getElementById('res-gold').innerText = gameData.gold;
-            document.getElementById('res-essence').innerText = gameData.essence;
-            document.getElementById('stat-fertility').innerText = `${gameData.fertility}%`;
-            document.getElementById('stat-world').innerText = `World ${gameData.world}`;
+        function renderAchievements() {
+            const list = document.getElementById('achievements-list');
+            list.innerHTML = '';
+            let completedCount = 0;
+            gameData.achievements.forEach(ach => {
+                if (ach.completed) completedCount++;
+                list.innerHTML += `<div class="shop-row"><div><strong>${ach.name}</strong><br><span style="color:var(--text-muted);">${ach.desc}</span></div><div>${ach.completed ? '✅ Done' : '🔒 Locked'}</div></div>`;
+            });
+            document.getElementById('ach-count').innerText = `${completedCount}/${gameData.achievements.length}`;
+        }
+
+        function checkAchievements() {
+            gameData.achievements[0].completed = true; // First harvest
+            if (gameData.gold >= 1000) gameData.achievements[2].completed = true;
+            renderAchievements();
+        }
+
+        function toggleWorld() {
+            gameData.world = gameData.world === 1 ? 2 : 1;
+            logMessage(`Teleported to World ${gameData.world}.`);
+            updateUI();
+            renderInventory();
+        }
+
+        function triggerRebirth() {
+            if (gameData.essence >= 150) {
+                gameData.essence -= 150;
+                gameData.world = 2;
+                gameData.seeds.stellaris.count += 10;
+                gameData.achievements[1].completed = true;
+                gameData.plots.forEach(p => { p.state = 'empty'; p.growth = 0; });
+                closeModal('rebirth-modal');
+                showPopup("🌌 WELCOME TO WORLD 2!");
+                logMessage("Rebirth performed! Unlocked World 2 dimensions.");
+                updateUI();
+                renderPlots();
+                renderInventory();
+                renderAchievements();
+            } else {
+                showPopup("❌ Need 150 Essence to Rebirth!");
+            }
         }
 
         function submitPromoCode() {
@@ -654,38 +844,47 @@
             let val = input.value.trim();
             input.value = '';
 
-            if (val === 'Om_thedev' && !gameData.codesRedeemed.Om_thedev) {
+            if (val === 'sorry_for_update' && !gameData.codesRedeemed.sorry_for_update) {
+                gameData.codesRedeemed.sorry_for_update = true;
+                gameData.gold += 1200;
+                gameData.essence += 100;
+                for (let k in gameData.seeds) gameData.seeds[k].count += 15;
+                showPopup("🌟 Special Patch Compensation Claimed (+1200 Gold, +100 Essence)!");
+                logMessage("Redeemed compensation code 'sorry_for_update'.");
+            } else if (val === 'Om_thedev' && !gameData.codesRedeemed.Om_thedev) {
                 gameData.codesRedeemed.Om_thedev = true;
                 gameData.gold += 500;
                 gameData.essence += 50;
                 showPopup("🌱 Code Redeemed: +500 Gold!");
                 logMessage("Redeemed code 'Om_thedev'.");
-            } else if (val === 'Upvote_omexla' && !gameData.codesRedeemed.Upvote_omexla) {
-                gameData.codesRedeemed.Upvote_omexla = true;
-                for (let k in gameData.seeds) gameData.seeds[k].count += 10;
-                showPopup("✨ Code Redeemed: +10 All Seeds!");
-                logMessage("Redeemed code 'Upvote_omexla'.");
             } else if (val === '5555' && !gameData.codesRedeemed.admin_5555) {
                 gameData.codesRedeemed.admin_5555 = true;
-                gameData.gold += 9999;
-                gameData.essence += 200;
-                gameData.fertility = 500;
-                showPopup("⚡ ADMIN GOD MODE ACTIVE!");
+                gameData.gold += 99999;
+                gameData.essence += 9999;
+                gameData.fertility = 999;
+                showPopup("⚡ ADMIN GOD MODE ACTIVE (Near Infinite Stats)!");
                 logMessage("Admin code 5555 executed.");
             } else {
-                showPopup("❌ Invalid or used code.");
+                showPopup("❌ Invalid or already used code.");
             }
             updateUI();
             renderInventory();
-            closeModal('settings-modal');
+            closeModal('blog-modal');
+        }
+
+        function updateUI() {
+            document.getElementById('res-gold').innerText = gameData.gold;
+            document.getElementById('res-essence').innerText = gameData.essence;
+            document.getElementById('stat-fertility').innerText = `${gameData.fertility}%`;
+            document.getElementById('stat-world').innerText = `World ${gameData.world}`;
+            document.getElementById('sprinkler-count').innerText = gameData.sprinklers;
         }
 
         function showPopup(text) {
             let p = document.getElementById('admin-popup');
             p.innerText = text;
             p.classList.add('show');
-            setTimeout(() => p.classList.remove('shadow'), 3000);
-            setTimeout(() => p.classList.remove('show'), 3000);
+            setTimeout(() => p.classList.remove('show'), 3500);
         }
 
         function logMessage(msg) {
@@ -697,14 +896,14 @@
 
         function openModal(id) { document.getElementById(id).classList.add('open'); }
         function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-        function saveGame() { localStorage.setItem('sproutSpire_clean_v2', JSON.stringify(gameData)); logMessage("Game saved."); closeModal('settings-modal'); }
+        function saveGame() { localStorage.setItem('sproutSpire_massive_v3', JSON.stringify(gameData)); logMessage("Game data successfully saved."); closeModal('settings-modal'); }
         function loadGame() {
-            let saved = localStorage.getItem('sproutSpire_clean_v2');
+            let saved = localStorage.getItem('sproutSpire_massive_v3');
             if (saved) { try { gameData = { ...gameData, ...JSON.parse(saved) }; } catch(e){} }
         }
         function hardReset() {
-            if (confirm("Reset all progress?")) { localStorage.removeItem('sproutSpire_clean_v2'); location.reload(); }
+            if (confirm("Are you sure you want to completely wipe all progress?")) { localStorage.removeItem('sproutSpire_massive_v3'); location.reload(); }
         }
     </script>
 </body>
-    </html>
+                    </html>
