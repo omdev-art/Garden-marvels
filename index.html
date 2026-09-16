@@ -10,10 +10,10 @@
             --bg-secondary: #ffffff;
             --bg-tertiary: #e2ede2;
             --accent-green: #27ae60;
-            --accent-glow: rgba(39, 174, 96, 0.2);
             --accent-gold: #d4ac0d;
             --accent-red: #c0392b;
             --accent-blue: #2980b9;
+            --accent-purple: #8e44ad;
             --text-main: #2c3e50;
             --text-muted: #7f8c8d;
             --border-color: #bdc3c7;
@@ -89,7 +89,15 @@
             transform: scale(0.96);
         }
 
-        /* Layout Container */
+        .btn-purple {
+            background: var(--accent-purple);
+            color: #fff;
+            border-color: var(--accent-purple);
+        }
+        .btn-purple:hover {
+            background: #732d91;
+        }
+
         .game-container {
             display: grid;
             grid-template-columns: 260px 1fr 280px;
@@ -130,7 +138,6 @@
             align-items: center;
         }
 
-        /* Stats Grid */
         .resource-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -155,7 +162,6 @@
             color: var(--accent-green);
         }
 
-        /* Center Garden */
         .garden-main-area {
             display: flex;
             flex-direction: column;
@@ -194,8 +200,10 @@
             position: relative;
         }
 
-        .plot-card:hover {
-            border-color: var(--accent-green);
+        .plot-card.locked {
+            background: #e9ecef;
+            border-style: dotted;
+            cursor: not-allowed;
         }
 
         .plot-card.active {
@@ -230,7 +238,6 @@
             width: 0%;
         }
 
-        /* Modals */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -340,15 +347,16 @@
     <header>
         <div class="logo-area">
             <h1>🌱 SPROUT & SPIRE</h1>
-            <p>Clean Core Edition v2.0</p>
+            <p>Clean Core Edition v2.2</p>
         </div>
         <div class="header-controls">
-            <button class="btn" onclick="openModal('settings-modal')">⚙️ Settings & Codes</button>
+            <button class="btn btn-purple" onclick="openModal('rebirth-modal')">🌌 Rebirth Portal</button>
+            <button class="btn" onclick="openModal('settings-modal')">⚙️ Settings</button>
         </div>
     </header>
 
     <div class="game-container">
-        <!-- Left Panel: Stats -->
+        <!-- Left Panel: Stats & Shop -->
         <div class="panel">
             <h2>Ecosystem Stats</h2>
             <div class="resource-grid">
@@ -370,10 +378,16 @@
                 </div>
             </div>
 
-            <h2>Tools & Fertilizer</h2>
+            <h2>Supplies & Fertilizer</h2>
             <div class="shop-row">
-                <div>Anti-Rot Spray</div>
-                <button class="btn" onclick="buyFertilizer('antiRot')">Buy (15g)</button>
+                <div>Anti-Rot Spray (x<span id="inv-antirot">0</span>)</div>
+                <button class="btn" onclick="buyFertilizer('antiRot')">Buy (25g)</button>
+            </div>
+            
+            <h2 style="margin-top:10px;">World Travel</h2>
+            <div class="shop-row">
+                <div>Switch Realm</div>
+                <button class="btn" onclick="toggleWorld()">Toggle W1/W2</button>
             </div>
         </div>
 
@@ -385,7 +399,7 @@
             </div>
 
             <div class="panel" style="flex:1; max-height:none;">
-                <h2>Garden Plots <span style="font-size:0.7rem; color:var(--text-muted);">Tap plot to plant/harvest</span></h2>
+                <h2>Garden Plots <span style="font-size:0.7rem; color:var(--text-muted);">Tap plot to unlock/plant</span></h2>
                 <div class="plots-grid" id="plots-container"></div>
             </div>
         </div>
@@ -397,20 +411,31 @@
 
             <h2>System Log</h2>
             <div class="console-log" id="console-log">
-                [00:00] Verdant Core initialized successfully.<br>
+                [00:00] Verdant Core initialized.<br>
             </div>
         </div>
     </div>
 
-    <!-- Settings Modal with Codes Area -->
+    <!-- Rebirth Modal -->
+    <div class="modal-overlay" id="rebirth-modal">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeModal('rebirth-modal')">&times;</button>
+            <h3 style="color:var(--accent-purple);">🌌 Realm Rebirth</h3>
+            <p style="font-size:0.8rem; color:var(--text-muted);">Transcend your current garden using Essence to unlock **World 2** and higher-tier rare seed yields!</p>
+            <div style="font-size:0.85rem; font-weight:bold;">Requirement: 100 Essence</div>
+            <button class="btn btn-purple" style="width:100%; margin-top:6px;" onclick="triggerRebirth()">Perform Rebirth</button>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
     <div class="modal-overlay" id="settings-modal">
         <div class="modal-box">
             <button class="modal-close" onclick="closeModal('settings-modal')">&times;</button>
             <h3 style="color:var(--accent-green);">Settings & Code Redemption</h3>
-            <p style="font-size:0.8rem; color:var(--text-muted);">Enter promotional or admin codes below:</p>
+            <p style="font-size:0.8rem; color:var(--text-muted);">Enter promo or admin codes below:</p>
             
             <div class="input-group" style="margin-top:6px;">
-                <input type="text" id="promo-code-input" class="input-field" placeholder="Enter code (e.g. Om_thedev, 5555)...">
+                <input type="text" id="promo-code-input" class="input-field" placeholder="Enter code...">
                 <button class="btn" onclick="submitPromoCode()">Redeem</button>
             </div>
 
@@ -425,7 +450,7 @@
     <div class="modal-overlay" id="plant-modal">
         <div class="modal-box">
             <button class="modal-close" onclick="closeModal('plant-modal')">&times;</button>
-            <h3 style="color:var(--accent-green);">Select Seed</h3>
+            <h3 style="color:var(--accent-green);">Select Seed to Plant</h3>
             <div id="plant-options-list" style="display:flex; flex-direction:column; gap:8px; margin-top:6px;"></div>
         </div>
     </div>
@@ -439,14 +464,16 @@
             fertility: 100,
             world: 1,
             plots: [
-                { id: 0, state: 'empty', seed: null, growth: 0, protected: false },
-                { id: 1, state: 'empty', seed: null, growth: 0, protected: false },
-                { id: 2, state: 'empty', seed: null, growth: 0, protected: false },
-                { id: 3, state: 'empty', seed: null, growth: 0, protected: false }
+                { id: 0, unlocked: true, state: 'empty', seed: null, growth: 0 },
+                { id: 1, unlocked: true, state: 'empty', seed: null, growth: 0 },
+                { id: 2, unlocked: false, state: 'locked', seed: null, growth: 0, cost: 100 },
+                { id: 3, unlocked: false, state: 'locked', seed: null, growth: 0, cost: 250 }
             ],
             seeds: {
-                sunflower: { name: 'Sunflower', count: 5, time: 10, reward: 20, icon: '🌻' },
-                moonbloom: { name: 'Moonbloom', count: 2, time: 20, reward: 50, icon: '🌙' }
+                sunflower: { name: 'Sunflower', count: 5, time: 10, reward: 20, icon: '🌻', world: 1 },
+                moonbloom: { name: 'Moonbloom', count: 2, time: 20, reward: 50, icon: '🌙', world: 1 },
+                stellaris: { name: 'Stellaris Crystal', count: 0, time: 15, reward: 150, icon: '💎', world: 2 },
+                voidsprout: { name: 'Void Sprout', count: 0, time: 30, reward: 400, icon: '🌌', world: 2 }
             },
             antiRotCount: 0,
             codesRedeemed: { Om_thedev: false, Upvote_omexla: false, admin_5555: false }
@@ -459,6 +486,7 @@
             loadGame();
             renderPlots();
             renderInventory();
+            updateUI();
             setInterval(gameTick, 1000);
         });
 
@@ -487,39 +515,58 @@
             container.innerHTML = '';
             gameData.plots.forEach((plot, index) => {
                 let card = document.createElement('div');
-                card.className = `plot-card ${plot.state !== 'empty' ? 'active' : ''}`;
                 card.onclick = () => handlePlotClick(index);
 
-                let icon = '🟫';
-                let statusText = 'Empty Soil';
-                let bar = '';
+                if (!plot.unlocked) {
+                    card.className = 'plot-card locked';
+                    card.innerHTML = `<div class="plot-status">Locked Lane</div><div class="plot-icon">🔒</div><div class="plot-status">Cost: ${plot.cost}g</div>`;
+                } else {
+                    card.className = `plot-card ${plot.state !== 'empty' ? 'active' : ''}`;
+                    let icon = '🟫';
+                    let statusText = 'Empty Soil';
+                    let bar = '';
 
-                if (plot.state === 'growing') {
-                    icon = gameData.seeds[plot.seed].icon;
-                    statusText = `Growing (${plot.growth}%)`;
-                    bar = `<div class="progress-bar-container"><div class="progress-bar" style="width:${plot.growth}%"></div></div>`;
-                } else if (plot.state === 'ready') {
-                    icon = gameData.seeds[plot.seed].icon;
-                    statusText = '✨ Ready!';
+                    if (plot.state === 'growing') {
+                        icon = gameData.seeds[plot.seed].icon;
+                        statusText = `Growing (${plot.growth}%)`;
+                        bar = `<div class="progress-bar-container"><div class="progress-bar" style="width:${plot.growth}%"></div></div>`;
+                    } else if (plot.state === 'ready') {
+                        icon = gameData.seeds[plot.seed].icon;
+                        statusText = '✨ Ready!';
+                    }
+                    card.innerHTML = `<div class="plot-status">Plot #${index + 1}</div><div class="plot-icon">${icon}</div><div class="plot-status">${statusText}</div>${bar}`;
                 }
-
-                card.innerHTML = `<div class="plot-status">Plot #${index + 1}</div><div class="plot-icon">${icon}</div><div class="plot-status">${statusText}</div>${bar}`;
                 container.appendChild(card);
             });
         }
 
         function handlePlotClick(index) {
             let plot = gameData.plots[index];
+            if (!plot.unlocked) {
+                if (gameData.gold >= plot.cost) {
+                    gameData.gold -= plot.cost;
+                    plot.unlocked = true;
+                    plot.state = 'empty';
+                    logMessage(`Unlocked Plot #${index + 1}!`);
+                    renderPlots();
+                    updateUI();
+                } else {
+                    logMessage(`Not enough gold to unlock Plot #${index + 1}.`);
+                }
+                return;
+            }
+
             if (plot.state === 'empty') {
                 activePlotIndex = index;
                 openPlantModal();
             } else if (plot.state === 'ready') {
-                let reward = gameData.seeds[plot.seed].reward;
-                gameData.gold += reward;
-                gameData.seeds[plot.seed].count++;
+                let seedObj = gameData.seeds[plot.seed];
+                gameData.gold += seedObj.reward;
+                gameData.essence += 2;
+                seedObj.count++;
                 plot.state = 'empty';
                 plot.growth = 0;
-                logMessage(`Harvested successfully! Gained ${reward} gold.`);
+                logMessage(`Harvested ${seedObj.name}! Gained ${seedObj.reward} gold & 2 essence.`);
                 renderPlots();
                 renderInventory();
                 updateUI();
@@ -530,11 +577,11 @@
             const list = document.getElementById('plant-options-list');
             list.innerHTML = '';
             for (let [key, seed] of Object.entries(gameData.seeds)) {
-                if (seed.count > 0) {
+                if (seed.world === gameData.world && seed.count > 0) {
                     list.innerHTML += `<div class="shop-row"><div><strong>${seed.icon} ${seed.name}</strong> (Owned: ${seed.count})</div><button class="btn" onclick="plantSeed('${key}')">Plant</button></div>`;
                 }
             }
-            if (!list.innerHTML) list.innerHTML = `<div style="font-size:0.8rem; color:var(--text-muted); text-align:center;">No seeds left!</div>`;
+            if (!list.innerHTML) list.innerHTML = `<div style="font-size:0.8rem; color:var(--text-muted); text-align:center;">No seeds for World ${gameData.world} available!</div>`;
             openModal('plant-modal');
         }
 
@@ -552,11 +599,35 @@
         }
 
         function buyFertilizer(type) {
-            if (type === 'antiRot' && gameData.gold >= 15) {
-                gameData.gold -= 15;
+            if (type === 'antiRot' && gameData.gold >= 25) {
+                gameData.gold -= 25;
                 gameData.antiRotCount++;
                 logMessage("Purchased Anti-Rot Spray.");
                 updateUI();
+            }
+        }
+
+        function toggleWorld() {
+            gameData.world = gameData.world === 1 ? 2 : 1;
+            logMessage(`Teleported to World ${gameData.world}.`);
+            updateUI();
+            renderInventory();
+        }
+
+        function triggerRebirth() {
+            if (gameData.essence >= 100) {
+                gameData.essence -= 100;
+                gameData.world = 2;
+                gameData.seeds.stellaris.count += 5;
+                gameData.plots.forEach(p => { p.state = 'empty'; p.growth = 0; });
+                closeModal('rebirth-modal');
+                showPopup("🌌 WELCOME TO WORLD 2!");
+                logMessage("Rebirth successful! Unlocked World 2 and received high-tier seeds.");
+                updateUI();
+                renderPlots();
+                renderInventory();
+            } else {
+                showPopup("❌ Need 100 Essence to Rebirth!");
             }
         }
 
@@ -564,9 +635,11 @@
             const container = document.getElementById('seeds-inventory');
             container.innerHTML = '';
             for (let [key, seed] of Object.entries(gameData.seeds)) {
-                container.innerHTML += `<div class="shop-row"><div>${seed.icon} ${seed.name}</div><div>x${seed.count}</div></div>`;
+                if (seed.world === gameData.world) {
+                    container.innerHTML += `<div class="shop-row"><div>${seed.icon} ${seed.name}</div><div>x${seed.count}</div></div>`;
+                }
             }
-            updateUI();
+            document.getElementById('inv-antirot').innerText = gameData.antiRotCount;
         }
 
         function updateUI() {
@@ -595,9 +668,10 @@
             } else if (val === '5555' && !gameData.codesRedeemed.admin_5555) {
                 gameData.codesRedeemed.admin_5555 = true;
                 gameData.gold += 9999;
+                gameData.essence += 200;
                 gameData.fertility = 500;
                 showPopup("⚡ ADMIN GOD MODE ACTIVE!");
-                logMessage("Admin code 5555 successfully executed.");
+                logMessage("Admin code 5555 executed.");
             } else {
                 showPopup("❌ Invalid or used code.");
             }
@@ -610,6 +684,7 @@
             let p = document.getElementById('admin-popup');
             p.innerText = text;
             p.classList.add('show');
+            setTimeout(() => p.classList.remove('shadow'), 3000);
             setTimeout(() => p.classList.remove('show'), 3000);
         }
 
@@ -622,14 +697,14 @@
 
         function openModal(id) { document.getElementById(id).classList.add('open'); }
         function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-        function saveGame() { localStorage.setItem('sproutSpire_clean', JSON.stringify(gameData)); logMessage("Game saved."); closeModal('settings-modal'); }
+        function saveGame() { localStorage.setItem('sproutSpire_clean_v2', JSON.stringify(gameData)); logMessage("Game saved."); closeModal('settings-modal'); }
         function loadGame() {
-            let saved = localStorage.getItem('sproutSpire_clean');
+            let saved = localStorage.getItem('sproutSpire_clean_v2');
             if (saved) { try { gameData = { ...gameData, ...JSON.parse(saved) }; } catch(e){} }
         }
         function hardReset() {
-            if (confirm("Reset all progress?")) { localStorage.removeItem('sproutSpire_clean'); location.reload(); }
+            if (confirm("Reset all progress?")) { localStorage.removeItem('sproutSpire_clean_v2'); location.reload(); }
         }
     </script>
 </body>
-      </html>
+    </html>
